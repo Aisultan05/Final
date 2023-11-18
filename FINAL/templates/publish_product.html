@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Ваши товары{% endblock %}
+{% block styles %}
+{% endblock %}
+{% block content %}
+<form method="POST" id="productForm">
+    <div class="container">
+        <label for="name"><b>Название товара</b></label>
+        <input type="text" placeholder="" name="name" id="name" required>
+        <label for="price"><b>Цена</b></label>
+        <input type="text" placeholder="" name="price" id="price" required>
+        <label for="image"><b>Изображение</b></label>
+        <input type="text" placeholder="" name="image" id="image" required>
+        <label for="description"><b>Описание товара</b></label>  <!-- Добавленное поле -->
+        <input type="text" placeholder="" name="description" id="description" required>  <!-- Добавленное поле -->
+        <label for="location"><b>Местоположение</b></label>  <!-- Добавленное поле -->
+        <input type="text" placeholder="" name="location" id="location" required>  <!-- Добавленное поле -->
+        <label for="contact_person"><b>Контактное лицо</b></label>  <!-- Добавленное поле -->
+        <input type="text" placeholder="" name="contact_person" id="contact_person" required>  <!-- Добавленное поле -->
+        <label for="email"><b>Email-адрес</b></label>  <!-- Добавленное поле -->
+        <input type="text" placeholder="" name="email" id="email" required>  <!-- Добавленное поле -->
+        <label for="phone_number"><b>Номер телефона</b></label>  <!-- Добавленное поле -->
+        <input type="text" placeholder="" name="phone_number" id="phone_number" required>  <!-- Добавленное поле -->
+        <button type="submit">Опубликовать товар</button>
+    </div>
+    <label for="category">Выберите категорию:</label>
+    <select name="category" id="category">
+    <option value="Электроника">Электроника</option>
+    <option value="Недвижимость">Недвижимость</option>
+    <option value="Одежда">Одежда</option>
+    <option value="Транспорт">Транспорт</option>
+    <option value="Мебель">Мебель</option>
+    <option value="Аксессуары">Аксессуары</option>
+    <option value="Обувь">Обувь</option>
+    <option value="Разные">Разные</option>
+    </select>
+</form>
+{% endblock %}

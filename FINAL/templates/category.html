@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{{ category }} Products</h2>
+    <ul>
+        {% for product in products %}
+            <li>
+                <h3>{{ product.name }}</h3>
+                <p>Price: {{ product.price }}</p>
+                <!-- Добавьте другие поля, которые вы хотите отображать -->
+                <a href="{{ url_for('show_product', product_id=product.id) }}">Details</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
