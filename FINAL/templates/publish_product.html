@@ -1,38 +1,138 @@
 {% extends "base.html" %}
 {% block title %}Ваши товары{% endblock %}
 {% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/publish_product.css') }}">
 {% endblock %}
 {% block content %}
-<form method="POST" id="productForm">
-    <div class="container">
-        <label for="name"><b>Название товара</b></label>
-        <input type="text" placeholder="" name="name" id="name" required>
-        <label for="price"><b>Цена</b></label>
-        <input type="text" placeholder="" name="price" id="price" required>
-        <label for="image"><b>Изображение</b></label>
-        <input type="text" placeholder="" name="image" id="image" required>
-        <label for="description"><b>Описание товара</b></label>  <!-- Добавленное поле -->
-        <input type="text" placeholder="" name="description" id="description" required>  <!-- Добавленное поле -->
-        <label for="location"><b>Местоположение</b></label>  <!-- Добавленное поле -->
-        <input type="text" placeholder="" name="location" id="location" required>  <!-- Добавленное поле -->
-        <label for="contact_person"><b>Контактное лицо</b></label>  <!-- Добавленное поле -->
-        <input type="text" placeholder="" name="contact_person" id="contact_person" required>  <!-- Добавленное поле -->
-        <label for="email"><b>Email-адрес</b></label>  <!-- Добавленное поле -->
-        <input type="text" placeholder="" name="email" id="email" required>  <!-- Добавленное поле -->
-        <label for="phone_number"><b>Номер телефона</b></label>  <!-- Добавленное поле -->
-        <input type="text" placeholder="" name="phone_number" id="phone_number" required>  <!-- Добавленное поле -->
-        <button type="submit">Опубликовать товар</button>
-    </div>
-    <label for="category">Выберите категорию:</label>
-    <select name="category" id="category">
-    <option value="Электроника">Электроника</option>
-    <option value="Недвижимость">Недвижимость</option>
-    <option value="Одежда">Одежда</option>
-    <option value="Транспорт">Транспорт</option>
-    <option value="Мебель">Мебель</option>
-    <option value="Аксессуары">Аксессуары</option>
-    <option value="Обувь">Обувь</option>
-    <option value="Разные">Разные</option>
-    </select>
-</form>
+<div class="css-1ek5um8" id="mainContent">
+    <form method="POST" id="productForm" novalidate="" data-testid="posting-form" class="css-10nm8zd">
+        <main class="css-u0s3wd" style="">
+            <div class="css-1p85e15">
+                <h2 class="css-1f64k0h">Создать объявление</h2>
+                <div class="css-19steib">
+                    <div class="css-y5bf47">
+                        <div class="css-10407u6">
+                            <div class="css-51afz5">
+                                <!-- Label and input for "Название товара" -->
+                                <div data-cy="name-field-wrapper" data-has-error="false" class="css-1sqb0rb">
+                                    <label color="charcoal" for="name" class="css-ha5hu8">Название товара*</label>
+                                    <div data-testid="tooltip-wrapper" class="css-t0lbh8">
+                                        <div data-testid="tooltip-toogle-node">
+                                            <div class="css-1qsx3gp">
+                                                <input type="text" aria-invalid="false" autocomplete="off" name="name" id="name" required class="css-v49bm8">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ... (other fields) ... -->
+                                <!-- Label and input for "Цена" -->
+                                <div data-cy="price-field-wrapper" data-has-error="false" class="css-1sqb0rb">
+                                    <label color="charcoal" for="price" class="css-ha5hu8">Цена*</label>
+                                    <div data-testid="tooltip-wrapper" class="css-t0lbh8">
+                                        <div data-testid="tooltip-toogle-node">
+                                            <div class="css-1qsx3gp">
+                                                <input type="text" aria-invalid="false" autocomplete="off" name="price" id="price" required class="css-v49bm8">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ... (other fields) ... -->
+                                <!-- Label and input for "Изображение" -->
+                                <div data-cy="image-field-wrapper" data-has-error="false" class="css-1sqb0rb">
+                                    <label color="charcoal" for="image" class="css-ha5hu8">Изображение*</label>
+                                    <div data-testid="tooltip-wrapper" class="css-t0lbh8">
+                                        <div data-testid="tooltip-toogle-node">
+                                            <div class="css-1qsx3gp">
+                                                <input type="text" aria-invalid="false" autocomplete="off" name="image" id="image" required class="css-v49bm8">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ... (other fields) ... -->
+                                <!-- Label and input for "Описание товара" -->
+                                <div data-cy="description-field-wrapper" data-has-error="false" class="css-1sqb0rb">
+                                    <label color="charcoal" for="description" class="css-ha5hu8">Описание товара*</label>
+                                    <div data-testid="tooltip-wrapper" class="css-t0lbh8">
+                                        <div data-testid="tooltip-toogle-node">
+                                            <div class="css-1qsx3gp">
+                                                <textarea aria-invalid="false" autocomplete="off" rows="11" name="description" id="description" data-cy="posting-description" data-testid="posting-description-text-area" placeholder="Подумайте, какие подробности вы хотели бы узнать из объявления. И добавьте их в описание" class="css-1kv2wi0"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ... (other fields) ... -->
+                                <!-- Label and input for "Местоположение" -->
+                                <div data-cy="location-field-wrapper" data-has-error="false" class="css-1sqb0rb">
+                                    <label color="charcoal" for="location" class="css-ha5hu8">Местоположение*</label>
+                                    <div data-testid="tooltip-wrapper" class="css-t0lbh8">
+                                        <div data-testid="tooltip-toogle-node">
+                                            <div class="css-1qsx3gp">
+                                                <input type="text" aria-invalid="false" autocomplete="off" name="location" id="location" required class="css-v49bm8">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ... (other fields) ... -->
+                                <!-- Label and input for "Контактное лицо" -->
+                                <div data-cy="contact-person-field-wrapper" data-has-error="false" class="css-1sqb0rb">
+                                    <label color="charcoal" for="contact_person" class="css-ha5hu8">Контактное лицо*</label>
+                                    <div data-testid="tooltip-wrapper" class="css-t0lbh8">
+                                        <div data-testid="tooltip-toogle-node">
+                                            <div class="css-1qsx3gp">
+                                                <input type="text" aria-invalid="false" autocomplete="off" name="contact_person" id="contact_person" required class="css-v49bm8">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ... (other fields) ... -->
+                                <!-- Label and input for "Email-адрес" -->
+                                <div data-cy="email-field-wrapper" data-has-error="false" class="css-1sqb0rb">
+                                    <label color="charcoal" for="email" class="css-ha5hu8">Email-адрес*</label>
+                                    <div data-testid="tooltip-wrapper" class="css-t0lbh8">
+                                        <div data-testid="tooltip-toogle-node">
+                                            <div class="css-1qsx3gp">
+                                                <input type="text" aria-invalid="false" autocomplete="off" name="email" id="email" required class="css-v49bm8">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ... (other fields) ... -->
+                                <!-- Label and input for "Номер телефона" -->
+                                <div data-cy="phone-number-field-wrapper" data-has-error="false" class="css-1sqb0rb">
+                                    <label color="charcoal" for="phone_number" class="css-ha5hu8">Номер телефона*</label>
+                                    <div data-testid="tooltip-wrapper" class="css-t0lbh8">
+                                        <div data-testid="tooltip-toogle-node">
+                                            <div class="css-1qsx3gp">
+                                                <input type="text" aria-invalid="false" autocomplete="off" name="phone_number" id="phone_number" required class="css-v49bm8">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ... (other fields) ... -->
+                            </div>
+                        </div>
+                    </div>
+
+                <label for="category">Выберите категорию:</label>
+                <select name="category" id="category">
+                    <option value="Электроника">Электроника</option>
+                    <option value="Недвижимость">Недвижимость</option>
+                    <option value="Одежда">Одежда</option>
+                    <option value="Транспорт">Транспорт</option>
+                    <option value="Мебель">Мебель</option>
+                    <option value="Аксессуары">Аксессуары</option>
+                    <option value="Обувь">Обувь</option>
+                    <option value="Разные">Разные</option>
+                </select>
+
+            </div>
+
+            <div class="css-1pkshq">
+                <button type="submit" data-testid="submit-btn" class="css-1anknvg" style="">Опубликовать</button>
+            </div>
+            </div>
+         </main>
+    </form>
+</div>
 {% endblock %}
+

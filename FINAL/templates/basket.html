@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Информация о корзине{% endblock %}
+{% block styles %}
+<style>
+body, html {
+    height: 100%;
+    margin: 0;
+}
+.con-container {
+    min-height: 100vh;
+}
+</style>
+{% endblock %}
+{% block content %}
+  <div class="con-container mt-5">
+    <h2>Your Cart</h2>
+
+    {% if cart %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart %}
+            <tr>
+              <th scope="row">{{ loop.index }}</th>
+              <td>{{ item.product.name if item.product else 'N/A' }}</td>
+              <td>{{ item.product.price if item.product else 'N/A' }}</td>
+              <td>{{ item.quantity }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="text-end">
+        <a href="#" class="btn btn-primary">Proceed to Checkout</a>
+      </div>
+    {% else %}
+      <p>Your cart is empty.</p>
+    {% endif %}
+  </div>
+{% endblock %}
+

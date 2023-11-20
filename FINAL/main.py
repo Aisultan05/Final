@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login_password.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login-password.db'
 app.secret_key = 'f454654*-FW4432-FHGHFHF5464-+65/f'
 db = SQLAlchemy(app)
 
@@ -17,10 +17,11 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.Float, nullable=False)
+    price = db.Column(db.String(10), nullable=False)
     image = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     description = db.Column(db.String(500), nullable=False)
@@ -30,6 +31,12 @@ class Product(db.Model):
     phone_number = db.Column(db.String(11), nullable=False)
     category = db.Column(db.String(50), nullable=False)
 
+class Cart(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False, default=1)
+
 
 with app.app_context():
     db.create_all()
@@ -38,6 +45,10 @@ with app.app_context():
 @app.route('/')
 def header():
     return render_template("main.html")
+
+@app.route('/about')
+def about():
+    return render_template("about.html")
 
 @app.route('/catalog_electronics', methods=['GET'])
 def catalog_electronics():
@@ -74,6 +85,11 @@ def catalog_footwear():
     products = Product.query.filter_by(category='Обувь').all()
     return render_template('catalog_footwear.html', products=products)
 
+@app.route('/catalog_clothing', methods=['GET'])
+def catalog_clothing():
+    products = Product.query.filter_by(category='Одежда').all()
+    return render_template('catalog_clothing.html', products=products)
+
 @app.route('/contacts')
 def contacts():
     return render_template('contacts.html')
@@ -92,7 +108,6 @@ def form_authorization():
             return render_template('auth_bad.html')
 
     return render_template('authorization.html')
-
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -155,7 +170,6 @@ def render_publish_product():
 def edit_product(product_id):
     product = Product.query.get(product_id)
 
-    # Check if the current user is the owner of the product
     if 'user_id' in session and session['user_id'] == product.user_id:
         if request.method == 'POST':
             product.name = request.form.get('name')
@@ -169,13 +183,10 @@ def edit_product(product_id):
 
             db.session.commit()
             return redirect(url_for('show_product', product_id=product.id))
-
         return render_template('edit_product.html', product=product)
 
-    # If not the owner, you might want to redirect or display an error
     flash('You do not have permission to edit this product.')
     return redirect(url_for('show_product', product_id=product.id))
-
 
 @app.route('/delete_product/<int:product_id>', methods=['POST'])
 def delete_product(product_id):
@@ -195,6 +206,45 @@ def delete_product(product_id):
     return redirect(url_for('show_catalog'))
 
 
+@app.route('/add_to_cart/<int:product_id>', methods=['GET', 'POST'])
+def add_to_cart(product_id):
+    if 'user_id' not in session:
+        return redirect(url_for('logout'))
+
+    if request.method == 'POST':
+        user_id = session['user_id']
+        product = Product.query.filter_by(id=product_id).first()
+
+        if product:
+            cart_item = Cart.query.filter_by(user_id=user_id, product_id=product_id).first()
+
+            if cart_item:
+                cart_item.quantity += 1
+            else:
+                new_cart_item = Cart(user_id=user_id, product_id=product_id, quantity=1)
+                db.session.add(new_cart_item)
+
+            db.session.commit()
+
+    return redirect(url_for('basket'))
+
+
+@app.route('/basket')
+def basket():
+    if 'user_id' not in session:
+        return redirect(url_for('logout'))
+
+    user_id = session['user_id']
+    print("User ID: {user_id}")
+
+    cart = Cart.query.filter_by(user_id=user_id).all()
+    print("Cart Items:")
+    for item in cart:
+        print(f"ID: {item.id}, Product ID: {item.product_id}, Quantity: {item.quantity}")
+
+    return render_template('basket.html', cart=cart)
+
+
 @app.route('/catalog', methods=['GET'])
 def show_catalog():
     products = Product.query.all()
@@ -204,7 +254,6 @@ def show_catalog():
 def show_product(product_id):
     product = Product.query.get(product_id)
     return render_template('product.html', product=product)
-
 
 @app.route('/logout')
 def logout():

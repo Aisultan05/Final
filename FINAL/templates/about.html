@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}About Us{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+<style>.con-container {
+    min-height: 100vh;
+}</style>
+{% endblock %}
+{% block content %}
+<div class="about-section">
+        <h2>About Us</h2>
+        <p>Welcome to Mugen Tsukiyomi! We are a passionate team dedicated to providing you with a unique and enjoyable shopping experience.</p>
+
+        <p>At Mugen Tsukiyomi, we believe in the power of imagination and creativity. Our platform brings together a diverse range of products, from electronics and clothing to accessories and more.</p>
+
+        <p>Explore our catalog, discover one-of-a-kind items, and connect with a community of like-minded individuals. Whether you're a buyer or a seller, Mugen Tsukiyomi is the place to express yourself and find something truly special.</p>
+
+        <p>Thank you for being a part of our journey. Feel free to reach out to us if you have any questions or suggestions. Happy shopping!</p>
+</div>
+
+<h2 style="text-align:center">Our Team</h2>
+<div class="row" >
+  <div class="column">
+    <div class="card">
+      <img src="/static/image/imageTelegram.jpg" style="width:100%">
+      <div class="container">
+        <h2>Aisultan Aitmaganbet</h2>
+        <p class="title">Отвечаю за все</p>
+        <p>Some text that describes me lorem ipsum ipsum lorem.</p>
+        <p>a.aytmaganbet@bk.ru</p>
+        <p><button class="button" onclick="redirectToContact()">Contact</button></p>
+         <script>
+           function redirectToContact() {
+           window.location.href = "https://t.me/EXlvl";
+           }
+         </script>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <img src="/static/image/avatar.jpg" style="width:100%">
+      <div class="container">
+        <h2></h2>
+        <p class="title"></p>
+        <p></p>
+        <p></p>
+        <p><button class="button" onclick="redirectToContact()">Contact</button></p>
+         <script>
+           function redirectToContact() {
+           window.location.href = "https://t.me/aiiymbk";
+           }
+         </script>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

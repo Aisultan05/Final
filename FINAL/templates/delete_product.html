@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 {% block title %}Delete{% endblock %}
 {% block styles %}
+<style>.con-container {
+    min-height: 100vh;
+}</style>
 {% endblock %}
 {% block content %}
+<div class="con-container">
     <h2>Delete Product</h2>
     <p>Are you sure you want to delete this product?</p>
     <form action="{{ url_for('delete_product', product_id=product.id) }}" method="post">
         <input type="submit" value="Delete">
     </form>
     <a href="{{ url_for('show_catalog') }}">Cancel</a>
+</div>
 {% endblock %}

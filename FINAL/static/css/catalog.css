@@ -1,0 +1,23 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+.contain {
+    display: flex;
+    justify-content: space-between; /* Добавлено для размещения элементов по краям контейнера */
+    align-items: center;
+    padding: 0 50px;
+}
+.con-container {
+    min-height: 100vh;
+}
+.nav-items.dropdown {
+    list-style: none;
+    margin-left: auto; /* Переместите элемент в правую сторону */
+    font-size: 1.5em; /* Увеличьте размер шрифта в два раза */
+}
+.card img {
+    width: 100%; /* 100% ширины родительского элемента */
+    height: 300px; /* Задайте фиксированную высоту, например, 200px */
+    object-fit: cover; /* Заполнение изображения внутри размеров блока без искажений */
+}

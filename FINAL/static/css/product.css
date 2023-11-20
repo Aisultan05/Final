@@ -1,0 +1,37 @@
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .con-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 50px; /* Добавим отступы по краям экрана */
+        }
+
+        .product-info {
+            width: 70%;
+            margin-right: 30px; /* Расстояние между блоками */
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #000;
+            max-height: 550px; /* Установите максимальную высоту, чтобы ограничить размер фотографии */
+        }
+
+        @media (max-width: 768px) {
+            .con-container {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0 10px; /* Уменьшим отступы для мобильных устройств */
+            }
+
+            .product-info {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px; /* Дополнительный отступ для мобильных устройств */
+            }
+        }

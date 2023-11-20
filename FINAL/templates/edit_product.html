@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Edit{% endblock %}
 {% block styles %}
+<style>.con-container {
+    min-height: 100vh;
+}</style>
 {% endblock %}
 {% block content %}
+<div class="con-container">
     <h2>Edit Product</h2>
     <form method="POST" action="/edit_product/{{ product.id }}">
         <label for="name">Name:</label><br>
@@ -23,4 +27,5 @@
         <input type="text" id="phone_number" name="phone_number" value="{{ product.phone_number }}"><br><br>
         <button type="submit">Save Changes</button>
     </form>
+</div>
 {% endblock %}
