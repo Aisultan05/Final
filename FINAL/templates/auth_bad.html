@@ -1,8 +1,10 @@
-{% extends "base.html" %}
-{% block title %}Ошибка{% endblock %}
-{% block styles %}
-{% endblock %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ошибка</title>
+</head>
+<body>
     <form method="POST">
         <div class="container">
             <label for="errorMessage"><b>Введен неправильный логин или пароль</b></label>
@@ -10,4 +12,5 @@
     </form>
 
     <link rel="stylesheet" href="{{ url_for('static', filename= 'css/auth_bad.css') }}">
-{% endblock %}
+</body>
+</html>

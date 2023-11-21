@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+import requests
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login-password.db'
@@ -36,6 +37,7 @@ class Cart(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
+    product = db.relationship('Product', backref='cart', lazy=True)
 
 
 with app.app_context():
@@ -90,9 +92,79 @@ def catalog_clothing():
     products = Product.query.filter_by(category='Одежда').all()
     return render_template('catalog_clothing.html', products=products)
 
+@app.route('/polit')
+def polit():
+    return render_template('polit.html')
+
+@app.route('/rule')
+def rule():
+    return render_template('rule.html')
 @app.route('/contacts')
 def contacts():
     return render_template('contacts.html')
+
+@app.route('/start', methods=['POST'])
+def start_command():
+    telegram_bot_token = "6470455301:AAFIyfQAtQwq7zjuYGa_szNwLrg4SVTnyuQ"
+
+    telegram_chat_id = "2019033793"
+
+    telegram_api_url = f"https://api.telegram.org/bot6470455301:AAFIyfQAtQwq7zjuYGa_szNwLrg4SVTnyuQ/sendMessage"
+
+    start_message = "Привет! Это бот для обработки заявок."
+    telegram_data = {
+        'chat_id': telegram_chat_id,
+        'text': start_message,
+        'parse_mode': 'HTML',
+    }
+
+    response = requests.post(telegram_api_url, data=telegram_data)
+    if response.status_code == 200:
+        print("Сообщение успешно отправлено в ответ на команду /start.")
+    else:
+        print(f"Ошибка отправки сообщения в ответ на команду /start. Код статуса: {response.status_code}, Текст ответа: {response.text}")
+
+    return "Команда /start обработана успешно!"
+
+
+@app.route('/process_form', methods=['POST'])
+def process_form():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message']
+
+        if not name or not email or not message:
+            flash('Пожалуйста, заполните все обязательные поля (имя, почта, сообщение).', 'error')
+            return redirect(url_for('contacts'))
+
+        telegram_bot_token = "6470455301:AAFIyfQAtQwq7zjuYGa_szNwLrg4SVTnyuQ"
+
+        telegram_chat_id = "2019033793"
+
+        telegram_api_url = f"https://api.telegram.org/bot6470455301:AAFIyfQAtQwq7zjuYGa_szNwLrg4SVTnyuQ/sendMessage"
+
+        telegram_message = f"Новая заявка из формы обратной связи:\n\nИмя: {name}\nEmail: {email}\nСообщение: {message}"
+
+        telegram_data = {
+            'chat_id': telegram_chat_id,
+            'text': telegram_message,
+            'parse_mode': 'HTML',
+        }
+
+        response = requests.post(telegram_api_url, data=telegram_data)
+
+        if response.status_code == 200:
+            flash("Сообщение успешно отправлено в Telegram.", 'success')
+        else:
+            flash(
+                f"Ошибка отправки сообщения в Telegram. Код статуса: {response.status_code}, Текст ответа: {response.text}",
+                'error')
+
+        return redirect(url_for('contacts'))
+    else:
+        return "Неверный метод запроса."
+
 @app.route('/authorization', methods=['GET', 'POST'])
 def form_authorization():
     if request.method == 'POST':
@@ -165,7 +237,6 @@ def render_publish_product():
 
     return render_template('publish_product.html')
 
-
 @app.route('/edit_product/<int:product_id>', methods=['GET', 'POST'])
 def edit_product(product_id):
     product = Product.query.get(product_id)
@@ -205,7 +276,6 @@ def delete_product(product_id):
     db.session.commit()
     return redirect(url_for('show_catalog'))
 
-
 @app.route('/add_to_cart/<int:product_id>', methods=['GET', 'POST'])
 def add_to_cart(product_id):
     if 'user_id' not in session:
@@ -228,22 +298,32 @@ def add_to_cart(product_id):
 
     return redirect(url_for('basket'))
 
+from flask import redirect, url_for
 
 @app.route('/basket')
 def basket():
     if 'user_id' not in session:
-        return redirect(url_for('logout'))
+        flash('Вы не авторизованы. Пожалуйста, войдите в систему.')
+        return redirect(url_for('form_authorization'))
 
     user_id = session['user_id']
-    print("User ID: {user_id}")
 
-    cart = Cart.query.filter_by(user_id=user_id).all()
-    print("Cart Items:")
-    for item in cart:
-        print(f"ID: {item.id}, Product ID: {item.product_id}, Quantity: {item.quantity}")
+    # Получаем корзину пользователя, включая связанный продукт
+    cart_items = Cart.query.filter_by(user_id=user_id).all()
+
+    # Создаем список для отображения в шаблоне
+    cart = []
+    for item in cart_items:
+        product = item.product
+        cart.append({
+            'id': item.id,
+            'name': product.name if product else 'N/A',
+            'price': product.price if product else 'N/A',
+            'quantity': item.quantity,
+            'product_id': product.id if product else None
+        })
 
     return render_template('basket.html', cart=cart)
-
 
 @app.route('/catalog', methods=['GET'])
 def show_catalog():
@@ -254,19 +334,16 @@ def show_catalog():
 def show_product(product_id):
     product = Product.query.get(product_id)
     return render_template('product.html', product=product)
-
 @app.route('/logout')
 def logout():
     if 'user_id' in session:
         session.pop('user_id', None)
     return redirect(url_for('header'))
 
-
 @app.route('/category/<string:category_name>', methods=['GET'])
 def show_category(category_name):
     products = Product.query.filter_by(category=category_name).all()
     return render_template('category.html', products=products, category=category_name)
-
 
 if __name__ == "__main__":
     app.run()

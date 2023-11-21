@@ -8,6 +8,7 @@ body, html {
 }
 .con-container {
     min-height: 100vh;
+    padding: 50px;
 }
 </style>
 {% endblock %}
@@ -16,33 +17,46 @@ body, html {
     <h2>Your Cart</h2>
 
     {% if cart %}
-      <table class="table">
+      <table class="table table-hover table-bordered">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Product Name</th>
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
           {% for item in cart %}
             <tr>
-              <th scope="row">{{ loop.index }}</th>
-              <td>{{ item.product.name if item.product else 'N/A' }}</td>
-              <td>{{ item.product.price if item.product else 'N/A' }}</td>
+              <td>
+                {% if item.product_id %}
+                  <a href="{{ url_for('show_product', product_id=item.product_id) }}">{{ item.name }}</a>
+                {% else %}
+                  N/A
+                {% endif %}
+              </td>
+              <td>{{ item.price }}</td>
               <td>{{ item.quantity }}</td>
+              <td>
+                {% if item.product_id %}
+                  <a href="{{ url_for('show_product', product_id=item.product_id) }}">View Details</a>
+                {% else %}
+                  N/A
+                {% endif %}
+              </td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
-
-      <div class="text-end">
-        <a href="#" class="btn btn-primary">Proceed to Checkout</a>
-      </div>
     {% else %}
       <p>Your cart is empty.</p>
     {% endif %}
   </div>
 {% endblock %}
+
+
+
+
+
 

@@ -1,0 +1,13 @@
+.flash-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    background-color: #f8d7da;  /* Цвет для сообщений об ошибке, можно изменить на свой вкус */
+    color: #721c24;  /* Цвет текста для сообщений об ошибке, можно изменить на свой вкус */
+    border-radius: 5px;
+}
+
+.flash-message-success {
+    background-color: #d4edda;  /* Цвет для успешных сообщений, можно изменить на свой вкус */
+    color: #155724;  /* Цвет текста для успешных сообщений, можно изменить на свой вкус */
+}
