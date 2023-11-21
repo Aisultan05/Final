@@ -1,50 +1,56 @@
+/* Общие стили для формы */
 form {
-     font: 14px Stem-Regular,arial, sans-serif;/*Выбираем шрифт */
-    border: 1px solid black;/*Цвет, размер и тип границы */
-    -webkit-border-radius: 20px;/*Скругляем углы */
-    color: #777991;/*Цвет label */
-    width: 25%; /*Ширина формы */
-    margin-right: auto; /*Положение формы */
-    margin-left: auto; /*Положение формы */
-    text-align: center; /*Центровка текста*/
-
+    font: 14px Stem-Regular, arial, sans-serif;
+    border: 1px solid black;
+    border-radius: 20px;
+    color: #777991;
+    width: 25%;
+    margin: 0 auto; /* Сокращенная запись для автоматического выравнивания по центру */
+    text-align: center;
 }
 
-input[type=text], input[type=password] {
-    text-align: center; /*Центровка текста*/
-    -webkit-border-radius: 4px;/*Скругляем углы */
-    width: auto; /*Ширина */
-    padding: 15px 20px; /*Размер внутренних отступов*/
-    margin: 10px 0; /*Размер внешних отступов*/
-    margin-right: auto; /*Размер внешних отступов справа*/
-    margin-left: auto; /*Размер внешних отступов слева*/
-    display: block; /*тип отображения*/
-    border: 1px solid #050c26;/*Цвет, размер и тип границы */
-    box-sizing: border-box; /*Размер объекта по отношению к родительскому */
-    font: 14px Stem-Regular,arial, sans-serif;/*Выбираем шрифт */
-    color: #777991;/*Цвет текста в input */
+/* Стили для мобильных устройств */
+@media screen and (max-width: 600px) {
+    form {
+        width: 80%;
+    }
 }
 
+/* Стили для ввода текста и пароля */
+input[type=text],
+input[type=password] {
+    text-align: center;
+    border-radius: 4px;
+    width: 100%;
+    padding: 15px 20px;
+    margin: 10px 0;
+    display: block;
+    border: 1px solid #050c26;
+    box-sizing: border-box;
+    font: 14px Stem-Regular, arial, sans-serif;
+    color: #777991;
+}
+
+/* Стили для кнопки */
 button {
-    font: 16px Stem-medium, arial, sans-serif; /*Выбираем шрифт кнопки */
-    background-color: #454cee; /*Выбираем цвет фона */
-    -webkit-border-radius: 8px; /*Закругление */
-    color: white; /*Выбираем цвет текста*/
-    padding: 16px 20px; /*Размер внутренних отступов*/
-    margin: 8px 0;/*Размер внешних отступов*/
-    border: none; /*Без границы*/
-    cursor: pointer; /*Изменение курсора при наведении на кнопку*/
-    width: auto; /*Ширина*/
+    font: 16px Stem-medium, arial, sans-serif;
+    background-color: #454cee;
+    border-radius: 8px;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
 }
 
 button:hover {
-    opacity: 0.9; /*Изменение яркости кнопки при наведении*/
+    opacity: 0.9;
 }
 
+/* Стили для контейнера */
 .container {
-    padding: 20px; /*Размер внутренних отступов контейнера*/
-}
-.container {
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
